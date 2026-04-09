@@ -1,66 +1,141 @@
-# Academic Project Page Template
+<div align="center">
 
-### Link: https://engineeringai-lab.github.io/StoryBlender/
+# 🎬 StoryBlender
+### *Inter-Shot Consistent and Editable 3D Storyboard with Spatial-temporal Dynamics*
 
-> **Update (September 2025)**: This template has been modernized with better design, SEO, and mobile support. For the original version, see the [original-version branch](https://github.com/eliahuhorwitz/Academic-project-page-template/tree/original-version).
+[![Project Page](https://img.shields.io/badge/🌐%20Project%20Page-StoryBlender-0A66C2?style=for-the-badge)](https://engineeringai-lab.github.io/StoryBlender/)
+[![arXiv](https://img.shields.io/badge/📄%20arXiv-2604.03315-B31B1B?style=for-the-badge)](https://arxiv.org/abs/2604.03315)
+[![Dataset](https://img.shields.io/badge/🤗%20Dataset-CineBoard3D-FFB000?style=for-the-badge)](https://huggingface.co/datasets/EngineeringAI-LAB/CineBoard3D)
+[![Discussions](https://img.shields.io/badge/💬%20Discussions-Ask%20Questions-2EA44F?style=for-the-badge)](https://github.com/EngineeringAI-LAB/StoryBlender/discussions)
 
-A clean, responsive template for academic project pages.
+</div>
 
+---
 
-## Start using the template
-To start using the template click on `Use this Template`.
+## ✨ Overview
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+**StoryBlender** is a Blender extension and web-based creative system for automated, editable, and inter-shot consistent **3D storyboard production** with spatial-temporal dynamics.
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+It combines:
+- A native Blender add-on panel
+- A Gradio-based multi-stage web UI
+- MCP-style Blender communication for scene-aware operations
 
-## What's New
+---
 
-- Modern, clean design with better mobile support
-- Improved SEO with proper meta tags and structured data
-- Performance improvements (lazy loading, optimized assets)
-- More Works dropdown
-- Copy button for BibTeX citations
-- Better accessibility
+## 👥 Authors
 
-## Components
+**Bingliang Li***, **Zhenhong Sun***, **Jiaming Bian**, **Yuehao Wu**, **Yifu Wang**, **Hongdong Li**, **Yatao Bian**, **Huadong Mo†**, **Daoyi Dong**
 
-- Teaser video
-- Image carousel
-- YouTube video embedding
-- Video carousel
-- PDF poster viewer
-- BibTeX citation
+*: Equal contribution, †: Corresponding author
 
-## Customization
+---
 
-The HTML file has TODO comments showing what to replace:
+## 🧩 Repository Structure
 
-- Paper title, authors, institution, conference
-- Links (arXiv, GitHub, etc.)
-- Abstract and descriptions  
-- Videos, images, and PDFs
-- Related works in the dropdown
-- Meta tags for SEO and social sharing
+```text
+StoryBlender/
+├── __init__.py                 # Blender add-on entrypoint
+├── blender_manifest.toml       # Blender extension metadata
+├── wheels/                     # Bundled Python wheels for Blender
+└── src/
+    ├── blender_mcp.py          # Blender socket command server
+    ├── server.py               # MCP bridge server
+    └── gradio_app/
+        ├── storyblender_app.py # Main Gradio UI
+        ├── config.py           # Configuration panel and handlers
+        └── step_*.py           # End-to-end storyboard workflow steps
+```
 
-### Meta Tags
-The template includes meta tags for better search engine visibility and social media sharing. These appear in the `<head>` section and help with:
-- Google Scholar indexing
-- Social media previews (Twitter, Facebook, LinkedIn)
-- Search engine optimization
+---
 
-Create a 1200x630px social preview image at `static/images/social_preview.png`.
+## 🚀 Quick Start
 
-## Tips
+### 1) Package the extension as a zip
 
-- Compress images with [TinyPNG](https://tinypng.com)
-- Use YouTube for large videos (>10MB)  
-- Replace the favicon in `static/images/`
-- Works with GitHub Pages
+Run this command from the parent directory of `StoryBlender/`:
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+```bash
+zip -r storyblender.zip StoryBlender
+```
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+### 2) Install in Blender
+
+In Blender, go to:
+
+`Edit` → `Preferences` → `Get Extensions` → *(top-right dropdown menu)* → `Install from Disk`
+
+Then select `storyblender.zip`.
+
+Please also refer to Blender's official add-on/extension documentation:
+- https://docs.blender.org/manual/en/latest/editors/preferences/addons.html
+
+### 3) Launch the web UI
+
+In the StoryBlender panel, click:
+
+`Launch Gradio`
+
+---
+
+## ⚙️ Configuration (Required)
+
+After launching Gradio, fill in the following fields in the **Configuration** section.
+
+### First row
+- **Gemini Image Model**: name of Nano Banana (e.g. `gemini-3-pro-image-preview`, `gemini-3.1-flash-image-preview`). Note that currently Gemini is becoming very strict about copyright censorship, we are currently working on to incorporate more models to bypass this issue.
+- **Gemini API Key**: your API key
+- **Gemini API Base**: leave empty if you are using the official API
+
+### Second row *(handled by AnyLLM)*
+AnyLLM docs: https://mozilla-ai.github.io/any-llm/
+
+- **Reasoning Model**: model for complex reasoning (e.g. `gemini-3.1-pro-preview`, `gpt-5.4`)
+- **Vision Model**: lighter model for fast multi-model inference (e.g. `gemini-3-flash-preview`, `gpt-5.4-mini`)
+- **AnyLLM API Key**: API key (can be the same as Gemini API key)
+- **AnyLLM API Base**: leave empty if using official API
+- **AnyLLM Provider**: according to AnyLLM provider naming (e.g. `gemini`, `openai`)
+
+### Third row
+- **Sketchfab API Key**: https://support.fab.com/s/article/Finding-your-API-Token
+
+### Fourth row *(Meshy required)*
+- **Meshy API Key**: https://www.meshy.ai/api
+- **Meshy Model**: default `latest`
+
+### Fifth row *(optional; for Hunyuan 3D Pro instead of Meshy)*
+- **Tencent Cloud Secret ID** and **Tencent Cloud Secret Key**
+  - EN: https://www.tencentcloud.com/document/product/1284/75281
+  - CN: https://cloud.tencent.com/document/product/1804/123461
+- **AI Platform**: choose which platform to use for 3D model generation
+
+### Sixth row
+- **Project Absolute Directory**: absolute path to your project directory to store all intermediate files for a story
+
+---
+
+## 🛠️ Workflow
+
+Once configuration is saved, follow the on-screen instructions in the web UI to complete the full storyboard generation and editing pipeline.
+
+If you have questions, feel free to open a discussion:
+- https://github.com/EngineeringAI-LAB/StoryBlender/discussions
+
+---
+
+## 📚 Citation
+
+If you find this project useful in your research, please cite:
+
+```bibtex
+@misc{li2026storyblenderintershotconsistenteditable,
+      title={StoryBlender: Inter-Shot Consistent and Editable 3D Storyboard with Spatial-temporal Dynamics}, 
+      author={Bingliang Li and Zhenhong Sun and Jiaming Bian and Yuehao Wu and Yifu Wang and Hongdong Li and Yatao Bian and Huadong Mo and Daoyi Dong},
+      year={2026},
+      eprint={2604.03315},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2604.03315}, 
+}
+```
+

@@ -1,0 +1,13 @@
+dev_full
+dev
+exp
+*.pyc
+__pycache__
+examples
+projects
+.windsurf
+*.json
+*.pdf
+*.jpg
+*.png
+.DS_Store
